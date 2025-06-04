@@ -19,6 +19,16 @@ if (! defined('RSP_HMAC_SECRET')) {
     define('RSP_HMAC_SECRET', '7hg0HxC1xlDBC46b/SJihXzE697RikDmiYb1Uj++dzk=');
 }
 
+// Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
+if (! defined('RSP_RECAPTCHA_SECRET')) {
+    define('RSP_RECAPTCHA_SECRET', '6Lc6klUrAAAAAILJ0o6Lw327g3WP9TC15jGB4kBR');
+}
+
+// Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
+if (! defined('RSP_RECAPTCHA_SITE_KEY')) {
+    define('RSP_RECAPTCHA_SITE_KEY', '6Lc6klUrAAAAAILhgLuyUlOz2yOpotfF302sEhd0');
+}
+
 if (! defined('RSP_CRM_ENDPOINT')) {
     define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
 }
@@ -51,6 +61,47 @@ function rsp_handle_forward()
     if ('' === $phone)           return wp_send_json_error('Missing field: Phone');
     if ('' === $companyName)     return wp_send_json_error('Missing field: CompanyName');
     if ('' === $recaptchaToken)  return wp_send_json_error('Missing field: recaptcha_token');
+
+    // c) Server‐side verify reCAPTCHA via Google’s siteverify API
+    $api_key = 'AIzaSyCRW7TUWacdLi_2J39yjTC7BvcPcRYGkg0'; // from GCP
+    $endpoint = "https://recaptchaenterprise.googleapis.com/v1/projects/montymobile-rsp-landing-page/assessments?key={$api_key}";
+
+    $request_body = [
+        "event" => [
+            "token"      => $recaptchaToken,
+            "siteKey"    => RSP_RECAPTCHA_SECRET,
+            "expectedAction" => "rsp_submit",
+        ]
+    ];
+
+    $response = wp_remote_post($endpoint, [
+        'headers' => ['Content-Type' => 'application/json'],
+        'body'    => wp_json_encode($request_body),
+    ]);
+
+    $data = json_decode(wp_remote_retrieve_body($response), true);
+
+    if (is_wp_error($response)) {
+        return wp_send_json_error('Recaptcha request failed: ' . $response->get_error_message());
+    }
+
+    // 7) Decode the JSON response:
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+
+    // 8) Ensure we got a valid array back:
+    if (!is_array($data) || !isset($data['tokenProperties'])) {
+        return wp_send_json_error('Recaptcha Enterprise returned invalid response.');
+    }
+
+    // 9) Check that the token is valid and the action matches:
+    $token_props = $data['tokenProperties'];
+    if (isset($token_props['valid']) && false === $token_props['valid']) {
+        return wp_send_json_error('Recaptcha token invalid.');
+    }
+    if (isset($token_props['action']) && 'rsp_submit' !== $token_props['action']) {
+        return wp_send_json_error('Recaptcha action mismatch.');
+    }
 
 
     // d) Build the JSON body for the CRM
