@@ -15,9 +15,14 @@ if (! defined('ABSPATH')) {
 /**
  * 1) Replace these with your actual values:
  */
+// if (! defined('RSP_HMAC_SECRET')) {
+//     define('RSP_HMAC_SECRET', 'g4naN4//moGpv/Gev4JIydVR9TwPnnVyJqkvlFoqdRU=');
+// }
+
 if (! defined('RSP_HMAC_SECRET')) {
-    define('RSP_HMAC_SECRET', 'g4naN4//moGpv/Gev4JIydVR9TwPnnVyJqkvlFoqdRU=');
+    define('RSP_HMAC_SECRET', '7hg0HxC1xlDBC46b/SJihXzE697RikDmiYb1Uj++dzk=');
 }
+
 
 if (! defined('RSP_CRM_ENDPOINT')) {
     define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
