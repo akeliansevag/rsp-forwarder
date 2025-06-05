@@ -20,7 +20,7 @@ if (! defined('RSP_HMAC_SECRET')) {
 }
 
 if (! defined('RSP_CRM_ENDPOINT')) {
-    define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
+    define('RSP_CRM_ENDPOINT', 'https://apis.montytelecom.com/api-gateway/crm-middleware');
 }
 
 // Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
@@ -117,7 +117,7 @@ function rsp_handle_forward()
         'X-Signature'    => $signature,
         'RecaptchaToken' => $recaptchaToken,
         'LanguageCode' => 'en',
-        'Tenant'       => '4efca093-86e4-416f-98c0-bdf3376061bb',
+        'Tenant'       => '10ed5729-e69b-46bf-9dbd-f7bd4e1e8090',
     );
 
     // g) Forward to the CRM endpoint
