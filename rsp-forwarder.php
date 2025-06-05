@@ -23,6 +23,15 @@ if (! defined('RSP_CRM_ENDPOINT')) {
     define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
 }
 
+// Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
+if (! defined('RSP_RECAPTCHA_SECRET')) {
+    define('RSP_RECAPTCHA_SECRET', '6LdXblYrAAAAACTfSVTL0vWXaH8gAE1M4mvxTeW_');
+}
+
+if (! defined('RSP_RECAPTCHA_ENDPOINT')) {
+    define('RSP_RECAPTCHA_ENDPOINT', 'https://www.google.com/recaptcha/api/siteverify');
+}
+
 /**
  * 2) Hook into admin_post for both logged-in and not-logged-in users.
  */
@@ -52,8 +61,39 @@ function rsp_handle_forward()
     if ('' === $companyName)     return wp_send_json_error('Missing field: CompanyName');
     if ('' === $recaptchaToken)  return wp_send_json_error('Missing field: recaptcha_token');
 
+    // $recaptcha_payload = array(
+    //     'secret' => RSP_RECAPTCHA_SECRET,
+    //     'response' => $recaptchaToken
+    // );
 
-    // d) Build the JSON body for the CRM
+    // $recaptcha_response = wp_remote_post(RSP_RECAPTCHA_ENDPOINT, [
+    //     'body'    => $recaptcha_payload
+    // ]);
+
+    // $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
+
+    // var_dump($recaptcha_data);
+    // exit;
+    // if (is_wp_error($recaptcha_response)) {
+    //     return wp_send_json_error('Recaptcha request failed: ' . $recaptcha_response->get_error_message());
+    // }
+
+    // // 8) Ensure we got a valid array back:
+    // if (!is_array($recaptcha_data) || !isset($recaptcha_data['tokenProperties'])) {
+    //     return wp_send_json_error('Recaptcha Enterprise returned invalid response.');
+    // }
+
+    // // 9) Check that the token is valid and the action matches:
+    // $token_props = $recaptcha_data['tokenProperties'];
+    // if (isset($token_props['valid']) && false === $token_props['valid']) {
+    //     return wp_send_json_error('Recaptcha token invalid.');
+    // }
+    // if (isset($token_props['action']) && 'SUBMIT' !== $token_props['action']) {
+    //     return wp_send_json_error('Recaptcha action mismatch.');
+    // }
+
+    // var_dump($recaptchaToken);
+    // // d) Build the JSON body for the CRM
     $crm_payload = array(
         'FirstName'   => $firstName,
         'LastName'    => $lastName,
