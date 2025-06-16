@@ -76,8 +76,7 @@ function rsp_handle_forward()
     ]);
 
     $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
-    var_dump($recaptcha_data);
-    exit;
+
     if (is_wp_error($recaptcha_response)) {
         return wp_send_json_error('Recaptcha request failed: ' . $recaptcha_response->get_error_message());
     }
