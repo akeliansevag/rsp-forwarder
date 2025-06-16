@@ -85,7 +85,7 @@ function rsp_handle_forward()
 
     // 8) Ensure we got a valid array back:
     if (!is_array($recaptcha_data) || !isset($recaptcha_data['tokenProperties'])) {
-        return wp_send_json_error('Recaptcha Enterprise returned invalid response.');
+        return wp_send_json_error('Recaptcha Enterprise returned invalid responsess.');
     }
 
     // 9) Check that the token is valid and the action matches:
