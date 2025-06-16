@@ -56,7 +56,8 @@ function rsp_handle_forward()
     $phone          = isset($_POST['Phone'])          ? sanitize_text_field(wp_unslash($_POST['Phone']))           : '';
     $companyName    = isset($_POST['CompanyName'])    ? sanitize_text_field(wp_unslash($_POST['CompanyName']))     : '';
     $recaptchaToken = isset($_POST['recaptcha_token']) ? sanitize_text_field(wp_unslash($_POST['recaptcha_token']))  : '';
-
+    var_dump($recaptchaToken);
+    exit;
     // b) Ensure required fields exist
     if ('' === $firstName)       return wp_send_json_error('Missing field: FirstName');
     if ('' === $lastName)        return wp_send_json_error('Missing field: LastName');
@@ -77,8 +78,7 @@ function rsp_handle_forward()
 
     $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
 
-    var_dump($recaptcha_data);
-    exit;
+
     if (is_wp_error($recaptcha_response)) {
         return wp_send_json_error('Recaptcha request failed: ' . $recaptcha_response->get_error_message());
     }
