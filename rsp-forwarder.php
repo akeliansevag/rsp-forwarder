@@ -82,16 +82,15 @@ function rsp_handle_forward()
     }
 
     // 8) Ensure we got a valid array back:
-    if (!is_array($recaptcha_data) || !isset($recaptcha_data['tokenProperties'])) {
+    if (!is_array($recaptcha_data)) {
         return wp_send_json_error('Recaptcha Enterprise returned invalid responsess.');
     }
 
-    // 9) Check that the token is valid and the action matches:
-    $token_props = $recaptcha_data['tokenProperties'];
-    if (isset($token_props['valid']) && false === $token_props['valid']) {
+
+    if (isset($recaptcha_data['success']) && false === $recaptcha_data['success']) {
         return wp_send_json_error('Recaptcha token invalid.');
     }
-    if (isset($token_props['action']) && 'SUBMIT' !== $token_props['action']) {
+    if (isset($recaptcha_data['action']) && 'submit' !== $recaptcha_data['action']) {
         return wp_send_json_error('Recaptcha action mismatch.');
     }
 
