@@ -66,33 +66,33 @@ function rsp_handle_forward()
     if ('' === $companyName)     return wp_send_json_error('Missing field: CompanyName');
     if ('' === $recaptchaToken)  return wp_send_json_error('Missing field: recaptcha_token');
 
-    $recaptcha_payload = array(
-        'secret' => RSP_RECAPTCHA_SECRET,
-        'response' => $recaptchaToken
-    );
+    // $recaptcha_payload = array(
+    //     'secret' => RSP_RECAPTCHA_SECRET,
+    //     'response' => $recaptchaToken
+    // );
 
-    $recaptcha_response = wp_remote_post(RSP_RECAPTCHA_ENDPOINT, [
-        'body'    => $recaptcha_payload
-    ]);
+    // $recaptcha_response = wp_remote_post(RSP_RECAPTCHA_ENDPOINT, [
+    //     'body'    => $recaptcha_payload
+    // ]);
 
-    $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
+    // $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
 
-    if (is_wp_error($recaptcha_response)) {
-        return wp_send_json_error('Recaptcha request failed: ' . $recaptcha_response->get_error_message());
-    }
+    // if (is_wp_error($recaptcha_response)) {
+    //     return wp_send_json_error('Recaptcha request failed: ' . $recaptcha_response->get_error_message());
+    // }
 
-    // 8) Ensure we got a valid array back:
-    if (!is_array($recaptcha_data)) {
-        return wp_send_json_error('Recaptcha Enterprise returned invalid responsess.');
-    }
+    // // 8) Ensure we got a valid array back:
+    // if (!is_array($recaptcha_data)) {
+    //     return wp_send_json_error('Recaptcha Enterprise returned invalid responsess.');
+    // }
 
 
-    if (isset($recaptcha_data['success']) && false === $recaptcha_data['success']) {
-        return wp_send_json_error('Recaptcha token invalid.');
-    }
-    if (isset($recaptcha_data['action']) && 'submit' !== $recaptcha_data['action']) {
-        return wp_send_json_error('Recaptcha action mismatch.');
-    }
+    // if (isset($recaptcha_data['success']) && false === $recaptcha_data['success']) {
+    //     return wp_send_json_error('Recaptcha token invalid.');
+    // }
+    // if (isset($recaptcha_data['action']) && 'submit' !== $recaptcha_data['action']) {
+    //     return wp_send_json_error('Recaptcha action mismatch.');
+    // }
 
     // var_dump($recaptchaToken);
     // // d) Build the JSON body for the CRM
