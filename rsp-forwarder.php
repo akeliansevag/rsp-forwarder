@@ -50,7 +50,7 @@ function rsp_handle_forward()
 {
     if (
         ! isset($_POST['forum_form_nonce']) ||
-        ! wp_verify_nonce($_POST['forum_form_nonce'], 'submit_forum_form_action')
+        ! wp_verify_nonce($_POST['forum_form_nonce'], $_POST['unique_action'])
     ) {
         // Invalid request — handle it securely
         return wp_send_json_error("Security check failed. Please try again.");
