@@ -25,7 +25,7 @@ if (! defined('RSP_HMAC_SECRET')) {
 
 
 if (! defined('RSP_CRM_ENDPOINT')) {
-    define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
+    define('RSP_CRM_ENDPOINT', 'https://digital-services-api-software-qa-public.montylocal.net/api-gateway/crm-middleware/api/v1/EsimRSP');
 }
 
 // Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
