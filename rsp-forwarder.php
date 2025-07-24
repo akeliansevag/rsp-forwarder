@@ -25,7 +25,7 @@ if (! defined('RSP_HMAC_SECRET')) {
 
 
 if (! defined('RSP_CRM_ENDPOINT')) {
-    define('RSP_CRM_ENDPOINT', 'http://apis.montytelecom.com/crm-middleware/api/v1/EsimRSP');
+    define('RSP_CRM_ENDPOINT', 'https://apis.montytelecom.com/crm-middleware/api/v1/EsimRSP');
 }
 
 // Real reCAPTCHA secret key (must match the site key you used on the page, and that key must be allowed for localhost)
