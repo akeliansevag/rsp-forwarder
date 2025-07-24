@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
 // }
 
 if (! defined('RSP_HMAC_SECRET')) {
-    define('RSP_HMAC_SECRET', '7hg0HxC1xlDBC46b/SJihXzE697RikDmiYb1Uj++dzk=');
+    define('RSP_HMAC_SECRET', 'g4naN4//moGpv/Gev4JIydVR9TwPnnVyJqkvlFoqdRU=');
 }
 
 
