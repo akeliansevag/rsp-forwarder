@@ -343,16 +343,16 @@ function rsp_handle_forward()
     );
 
     if (is_wp_error($crm_response)) {
-        // return wp_send_json_error('WP_Error forwarding to CRM: ' . $crm_response->get_error_message());
-        return wp_send_json_error('An error occured.');
+        return wp_send_json_error('WP_Error forwarding to CRM: ' . $crm_response->get_error_message());
+        // return wp_send_json_error('An error occured.');
     }
 
     $status_code   = wp_remote_retrieve_response_code($crm_response);
     $response_body = wp_remote_retrieve_body($crm_response);
 
     if (200 !== intval($status_code)) {
-        // return wp_send_json_error("CRM returned {$status_code}: {$response_body}");
-        return wp_send_json_error('An error occured.');
+        return wp_send_json_error("CRM returned {$status_code}: {$response_body}");
+        // return wp_send_json_error('An error occured.');
     }
 
     // h) If we got here, everything succeeded
